@@ -51,7 +51,7 @@ sudo sed -e '212s/Include "conf.d/*.cfg.lua"/Include "conf.d/*.cfg.lua"/g' /etc/
 sudo sed '24s/$/asap_accepted_issuers = { "jitsi", ${ISSUERS} }/g' /etc/prosody/conf.avail/$SERVER
 sudo sed '25/$/asap_accepted_audiences = { "jitsi", ${AUDIENCES} }/g' /etc/prosody/conf.avail/$SERVER
 sudo sed -e '29s/anonymous/token/g' /etc/prosody/conf.avail/$SERVER
-sudo sed -e '32,33s/=.*/=giusoft' /etc/prosody/conf.avail/$SERVER
+sudo sed -e '32,33s/=.*/=example' /etc/prosody/conf.avail/$SERVER
 if grep -q  "presence_identity" /etc/prosody/conf.avail/$SERVER; then
 	echo "presence_identity encontrado entre os módulos"
 else
@@ -73,7 +73,7 @@ sudo cat "VirtualHost '${SERVER}'
 
 
 # Arquivo /etc/jitsi/meet/$SERVER-config.js
-sudo sed -i .bk  -e "12s/.*/        anonymousdomain: 'dev.giusoft.com.br',/g" /etc/jitsi/meet/$SERVER-config.js
+sudo sed -i .bk  -e "12s/.*/        anonymousdomain: 'meet.example.com.br',/g" /etc/jitsi/meet/$SERVER-config.js
 sudo sed -i  '/UI/a   enableUserRolesBasedOnToken: true,' /etc/jitsi/meet/$SERVER-config.js
 
 # Arquivo de configuração do jicofo
