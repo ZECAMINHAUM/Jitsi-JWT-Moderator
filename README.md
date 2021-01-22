@@ -19,46 +19,53 @@ Após a instalação, tente entrar numa sala qualquer, se for requisitado o logi
 
 
 ### Side Notes
+#### Helpers
 
-Caso haja algum problema na instalação, você pode interromper o uso da autenticação via JWT alterando os arquivos:
+Para gerenciar de forma mais eficiente, deixei aqui dois scripts para habilitar e desabilitar autenticação via JWT:
 
-- `/etc/prosody/conf.d/[nomeservidor].cfg.lua`:
-  * Primeiro encontre o trecho `VirtualHost "[nome do servidor]"` e altere o valor de `authentication` de `"token"` para `"anonymous"`:
-    ```lua
-    ...
-    VirtualHost "[nome do servidor]"
-      authentication = "anonymous";
+- [Desabilitar JWT](/disableJWT.sh)
+- [Habilitar JWT](/enableJWT.sh)
+#### Problemas de instalação
+
+  Caso haja algum problema na instalação, você pode interromper o uso da autenticação via JWT alterando os arquivos:
+
+  - `/etc/prosody/conf.d/[nomeservidor].cfg.lua`:
+    * Primeiro encontre o trecho `VirtualHost "[nome do servidor]"` e altere o valor de `authentication` de `"token"` para `"anonymous"`:
+      ```lua
       ...
-    ...
-    ```
-
-    - Dentro dele Altere os os parametros:
-      - "authentication" com o valor "token" para "anonymous"
-
-- `/etc/jitsi/meet/[nome do servidor].config.js`:
-  * Encontre o objeto `hosts` e comente o parâmetro `anonymousdomain`:
-    ```javascript
-    ... 
-    hosts = {
+      VirtualHost "[nome do servidor]"
+        authentication = "anonymous";
+        ...
       ...
-      // insira duas barras para comentar
-      // anonymousdomain: 'gest.[nome do servidor]',
-    }
-    ...
-    ```
+      ```
 
-  * Abaixo de hosts encontre o parametro `enableUserRolesBasedOnToken` e também comente.
+      - Dentro dele Altere os os parametros:
+        - "authentication" com o valor "token" para "anonymous"
 
-- Por fim, reinicie o Jitsi e Nginx:
-  ```shell script
-  service nginx stop
-  /etc/init.d/jicofo restart
-  /etc/init.d/jitsi-videobridge2 restart
-  /etc/init.d/prosody restart
-  service nginx start
-  ```  
+  - `/etc/jitsi/meet/[nome do servidor].config.js`:
+    * Encontre o objeto `hosts` e comente o parâmetro `anonymousdomain`:
+      ```javascript
+      ... 
+      hosts = {
+        ...
+        // insira duas barras para comentar
+        // anonymousdomain: 'gest.[nome do servidor]',
+      }
+      ...
+      ```
 
-*A cada modificação no Jitsi, reinicie através desse script :wink:*
+    * Abaixo de hosts encontre o parametro `enableUserRolesBasedOnToken` e também comente.
+
+  - Por fim, reinicie o Jitsi e Nginx:
+    ```shell script
+    service nginx stop
+    /etc/init.d/jicofo restart
+    /etc/init.d/jitsi-videobridge2 restart
+    /etc/init.d/prosody restart
+    service nginx start
+    ```  
+
+  *A cada modificação no Jitsi, reinicie através desse script :wink:*
 
 #### :bust_in_silhouette: Author
 
