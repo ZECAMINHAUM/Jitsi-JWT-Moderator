@@ -1,62 +1,58 @@
-# Instalação da autenticação JWT e controle de Moderador :robot:
+# JWT installation and moderator control in Jitsi :robot:
 
-Após instalação do Jitsi por completo, você seguirá os passos a seguir para alterar a forma de autenticação anônima para token através da URL e adição do plugin para controle de moderador.
-
-
-### Instalação
-Para realizar a instalação e configuração do JWT basta executar o script, lembre-se de gravar as chaves **ID** e **SECRET**, caso o processo de instalação falhe, você não terá que reinstalar tudo :smile: . Lembre-se de executar o script como super usuário.
+After you install Jitsi completely, you'll follow the steps below to change the form of anonymous to token authentication through the URL and adding the plugin for moderator control.
 
 
-[*Clique aqui para baixar o script* :computer:](/instalarJWT.sh)
-**OBS**: *O Computador será reinicializado no fim do processo*
+### Installation
+To perform the installation and configuration of JWT just run the script, remember to write the keys **ID** and **SECRET**, if the installation process fails, you will not have to reinstall everything :smile: . Remember to run the script as a super user.
 
-### Teste
-Após a instalação, tente entrar numa sala qualquer, se for requisitado o login e senha, tudo ocorreu bem. Agora para entrar na sala você precisará gerar um token e incluir na URL como parâmetro. 
 
-- Exemplo de token:
+[*Click here for download the script* :computer:](/instalarJWT.sh)
+**OBS**: *Your computer will restart after finish installation*
+
+### Testing
+After installation, try to enter any room, if you are asked for the login and password, everything went well. Now to enter the room you will need to generate a token and include in the URL as a parameter. 
+- Generating token:
   ![Exemplo](/exemplo_jwt.png)
-  ***OBS**: Neste Exemplo usei o site do JWT (https://jwt.io/).*
+  ***OBS**: In this example i use JWT website (https://jwt.io/).*
 
 
 ### Side Notes
 #### Helpers
 
-Para gerenciar de forma mais eficiente, deixei aqui dois scripts para habilitar e desabilitar autenticação via JWT:
+To manage more efficiently, I left here two scripts to enable and disable authentication via JWT:
 
-- [Desabilitar JWT](/disableJWT.sh)
-- [Habilitar JWT](/enableJWT.sh)
-#### Problemas de instalação
+- [disable JWT](/disableJWT.sh)
+- [enable JWT](/enableJWT.sh)
+#### Installation Issues
 
-  Caso haja algum problema na instalação, você pode interromper o uso da autenticação via JWT alterando os arquivos:
+  If there is a problem with the installation, you can stop using JWT authentication by changing the files:
 
   - `/etc/prosody/conf.d/[nomeservidor].cfg.lua`:
-    * Primeiro encontre o trecho `VirtualHost "[nome do servidor]"` e altere o valor de `authentication` de `"token"` para `"anonymous"`:
+    * First find the excerpt `VirtualHost "[hostname]"` and `VirtualHost "guest.[hostname]"` then find the key inside `authentication` and change the current value `"token"` to `"anonymous"`:
       ```lua
       ...
-      VirtualHost "[nome do servidor]"
+      VirtualHost "[hostname]"
         authentication = "anonymous";
         ...
       ...
       ```
-
-      - Dentro dele Altere os os parametros:
-        - "authentication" com o valor "token" para "anonymous"
-
-  - `/etc/jitsi/meet/[nome do servidor].config.js`:
-    * Encontre o objeto `hosts` e comente o parâmetro `anonymousdomain`:
+      
+  - `/etc/jitsi/meet/[hostname].config.js`:
+    * find the object `hosts` then comment the key `anonymousdomain`:
       ```javascript
       ... 
       hosts = {
         ...
-        // insira duas barras para comentar
-        // anonymousdomain: 'gest.[nome do servidor]',
+        // insert two forward bars before the code for comment
+        // anonymousdomain: 'gest.[hostname]',
       }
       ...
       ```
 
-    * Abaixo de hosts encontre o parametro `enableUserRolesBasedOnToken` e também comente.
+    * Then find the key (probably in the middle of the file) `enableUserRolesBasedOnToken` and comment to.
 
-  - Por fim, reinicie o Jitsi e Nginx:
+  - Ind the end, you should restart the services:
     ```shell script
     service nginx stop
     /etc/init.d/jicofo restart
@@ -65,11 +61,11 @@ Para gerenciar de forma mais eficiente, deixei aqui dois scripts para habilitar 
     service nginx start
     ```  
 
-  *A cada modificação no Jitsi, reinicie através desse script :wink:*
+  *After any change in you custom Jitsi, restart it, so make a script for it. :wink:*
 
 #### :bust_in_silhouette: Author
 
 - GitHub: [@ZECAMINHAUM](github.com/ZECAMINHAUM)
 - Twitter: [@Lucaaix](https://twitter.com/Lucaai_x)
-- Instagram: [@lucaai_x](instagram.com/lucaai_x)
+- Instagram: [@lucaai_x](https://instagram.com/lucaai_x)
 - E-mail: ls4388387@gmail.com
